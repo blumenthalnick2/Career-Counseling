@@ -15,8 +15,11 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    console.log('Anthropic response status:', response.status);
+    console.log('Anthropic response:', JSON.stringify(data).slice(0, 200));
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: 'API call failed' });
+    console.log('Error:', error.message);
+    res.status(500).json({ error: error.message });
   }
 }
