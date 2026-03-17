@@ -308,7 +308,7 @@ function skeletonHTML(title='', idx='') {
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
 let currentScreen = 'home';
-function showScreen(name) {
+function showScreen(name, pushState=true) {
   ['home','quiz','majors','explore'].forEach(s => {
     document.getElementById('screen-'+s).style.display = s===name?'block':'none';
   });
@@ -317,6 +317,7 @@ function showScreen(name) {
     document.getElementById('nav'+s.charAt(0).toUpperCase()+s.slice(1)).classList.toggle('active', s===name);
   });
   currentScreen = name;
+  if(pushState) history.pushState({screen:name}, '', '#'+name);
   if(name==='home') renderHome();
   if(name==='quiz') initQuiz();
   if(name==='majors') initMajors();
