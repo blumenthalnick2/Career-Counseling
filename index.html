@@ -219,20 +219,23 @@ const QUIZ_QUESTIONS = [
 async function callAPI(prompt, maxTokens=600) {
   const res = await fetch('/api/chat', {
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:maxTokens, messages:[{role:'user',content:prompt}]})
+    body: JSON.stringify({model:'claude-sonnet-4-5-20251022', max_tokens:maxTokens, messages:[{role:'user',content:prompt}]})
   });
   if(!res.ok) throw new Error('HTTP error ' + res.status);
   const data = await res.json();
   if(data.error) throw new Error(data.error.message || 'API error');
   if(!data.content) throw new Error('No content in response');
   const text = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-  // Try to find JSON object or array
-  const objMatch = text.match(/\{[\s\S]*\}/);
+  console.log('API response text:', text.slice(0, 300));
+  // Try array first, then object
   const arrMatch = text.match(/\[[\s\S]*\]/);
-  const match = objMatch || arrMatch;
-  if(!match) throw new Error('No JSON found in response');
-  try { return JSON.parse(match[0]); }
-  catch(e) { throw new Error('JSON parse error: ' + e.message); }
+  const objMatch = text.match(/\{[\s\S]*\}/);
+  // For array responses try array first
+  if(arrMatch) { try { return JSON.parse(arrMatch[0]); } catch(e) {} }
+  if(objMatch) { try { return JSON.parse(objMatch[0]); } catch(e) {} }
+  // Last resort: try parsing the whole text
+  try { return JSON.parse(text); } catch(e) {}
+  throw new Error('Could not parse JSON from: ' + text.slice(0,100));
 }
 
 function careerDetailPrompt(title, context='') {
