@@ -219,7 +219,7 @@ const QUIZ_QUESTIONS = [
 async function callAPI(prompt, maxTokens=600) {
   const res = await fetch('/api/chat', {
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({model:'claude-sonnet-4-5-20251022', max_tokens:maxTokens, messages:[{role:'user',content:prompt}]})
+    body: JSON.stringify({model:'claude-haiku-4-5-20251001', max_tokens:maxTokens, messages:[{role:'user',content:prompt}]})
   });
   if(!res.ok) throw new Error('HTTP error ' + res.status);
   const data = await res.json();
