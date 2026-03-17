@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,362 +8,647 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#020817;--surface:#0f172a;--border:#1e293b;
+  --bg:#020817;--surface:#0f172a;--surface2:#131f35;--border:#1e293b;
   --text:#f1f5f9;--muted:#64748b;--subtle:#94a3b8;
   --green:#6EE7B7;--blue:#93C5FD;--red:#FCA5A5;--yellow:#FCD34D;--purple:#C4B5FD;
 }
 body{background:var(--bg);min-height:100vh;font-family:'DM Sans',sans-serif;color:var(--text);padding:40px 20px}
-.container{max-width:680px;margin:0 auto}
+.wrap{max-width:720px;margin:0 auto}
+/* Header */
 .header{display:flex;align-items:center;gap:12px;margin-bottom:48px}
-.header-logo{font-size:26px}
-.header-title{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
-.restart-btn{margin-left:auto;background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;display:none}
-.restart-btn:hover{color:var(--subtle)}
-h1{font-family:'Playfair Display',serif;font-size:clamp(34px,6vw,54px);font-weight:900;line-height:1.15;margin-bottom:24px}
+.logo-btn{background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:10px}
+.logo-icon{font-size:24px}
+.logo-text{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.nav-pills{margin-left:auto;display:flex;gap:6px}
+.nav-pill{padding:6px 12px;background:none;border:1px solid transparent;border-radius:8px;color:var(--muted);cursor:pointer;font-size:16px;transition:all .15s}
+.nav-pill.active{background:var(--surface);border-color:var(--border);color:var(--text)}
+/* Home */
+.home-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--green);text-transform:uppercase;margin-bottom:16px}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,58px);font-weight:900;line-height:1.1;margin-bottom:20px}
 .gradient{background:linear-gradient(90deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.intro-tag{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--green);text-transform:uppercase;margin-bottom:16px}
-.intro-p{font-size:17px;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:14px}
-.intro-p em{color:var(--subtle);font-style:italic}
-.stats-row{display:flex;gap:16px;margin-bottom:48px;flex-wrap:wrap}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 18px}
-.stat-a{font-family:'Playfair Display',serif;font-size:18px;color:var(--text);margin-bottom:2px}
-.stat-b{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
-.start-btn{padding:16px 44px;background:linear-gradient(135deg,var(--green),var(--blue));color:var(--bg);border:none;border-radius:14px;font-size:17px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity .2s,transform .2s}
-.start-btn:hover{opacity:.9;transform:scale(1.02)}
+.home-sub{font-size:18px;color:var(--muted);line-height:1.7;max-width:520px;margin-bottom:48px}
+.tool-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:640px){.tool-cards{grid-template-columns:1fr}}
+.tool-card{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:24px 20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;cursor:pointer;text-align:left;transition:all .2s ease;width:100%;height:100%}
+.tool-card:hover{background:rgba(147,197,253,.04)}
+.tool-icon{font-size:40px}
+.tool-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:6px}
+.tool-sub{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:10px;flex:1}
+.tool-cta{font-size:12px;font-family:'DM Mono',monospace}
+/* Shared */
+.back-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:13px;margin-bottom:32px;display:flex;align-items:center;gap:6px}
+.back-btn:hover{color:var(--subtle)}
+.tag{font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase;padding:3px 9px;border-radius:20px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);color:var(--text);margin:12px 0 8px}
+.section-sub{color:var(--muted);font-size:15px;font-family:'DM Sans',sans-serif;margin-bottom:32px}
+/* Search input */
+.search-input{width:100%;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--text);font-size:15px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:20px}
+.search-input:focus{border-color:rgba(147,197,253,.5)}
+/* Category pills */
+.cat-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.cat-pill{padding:6px 14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;color:var(--muted);cursor:pointer;font-size:13px;font-family:'DM Mono',monospace;transition:all .15s}
+.cat-pill.active{background:rgba(147,197,253,.13);border-color:var(--blue);color:var(--blue)}
+/* Major list */
+.major-list{display:flex;flex-direction:column;gap:8px}
+.major-btn{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:12px;cursor:pointer;text-align:left;width:100%;transition:all .15s}
+.major-btn:hover{border-color:rgba(147,197,253,.4);background:rgba(147,197,253,.04)}
+.major-name{font-family:'DM Sans',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
+.major-cat{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+/* Career cards */
+.career-cards{display:flex;flex-direction:column;gap:20px}
+.career-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;position:relative;opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease}
+.career-card.visible{opacity:1;transform:translateY(0)}
+.career-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.career-title-wrap{display:flex;align-items:center;gap:12px}
+.career-emoji{font-size:36px}
+.career-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--text);line-height:1.2}
+.career-earnings{font-size:13px;color:var(--green);font-family:'DM Mono',monospace;font-weight:600;margin-top:4px}
+.ai-badge{font-size:12px;font-family:'DM Mono',monospace;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.career-desc{color:var(--subtle);font-size:14px;line-height:1.6;margin-bottom:16px}
+.work-profile{background:var(--bg);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.work-profile-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.stat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.stat-label{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.stat-dots{display:flex;gap:3px}
+.stat-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
+.sec-label{font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.sec-text{color:#cbd5e1;font-size:13px;line-height:1.6;font-family:'DM Sans',sans-serif;margin-bottom:12px}
+.org-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.org-tag{font-size:12px;color:var(--blue);background:rgba(147,197,253,.1);padding:3px 9px;border-radius:20px;font-family:'DM Mono',monospace}
+.courses-list{display:flex;flex-direction:column;gap:6px}
+.course-item{display:flex;gap:8px;background:var(--bg);padding:8px 12px;border-radius:8px;border:1px solid var(--border)}
+.course-arrow{color:var(--green);font-size:12px;flex-shrink:0;margin-top:1px}
+.course-name{font-weight:600;font-size:12px;color:var(--text);font-family:'DM Sans',sans-serif}
+.course-why{font-size:12px;color:var(--muted);font-family:'DM Sans',sans-serif}
+/* Skeleton */
+.skel-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px}
+.skel{background:var(--border);border-radius:6px;animation:pulse 1.5s ease infinite}
+.close-btn{position:absolute;top:12px;right:12px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
+/* Progress bar */
 .progress-wrap{margin-bottom:32px}
 .progress-labels{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;color:var(--muted);font-family:'DM Mono',monospace}
 .progress-track{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:2px;transition:width .5s ease;width:0%}
-.layer-tag{display:inline-block;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.15em;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
-.question-text{font-family:'Playfair Display',serif;font-size:clamp(20px,3.5vw,30px);font-weight:700;color:var(--text);line-height:1.3;margin-bottom:10px}
-.question-sub{color:var(--muted);font-size:15px;margin-bottom:28px}
+/* Quiz */
+.quiz-layer-tag{margin-bottom:10px}
+.quiz-q{font-family:'Playfair Display',serif;font-size:clamp(20px,3.5vw,30px);font-weight:700;color:var(--text);line-height:1.3;margin-bottom:10px}
+.quiz-sub{color:var(--muted);font-size:15px;margin-bottom:28px}
 .options{display:flex;flex-direction:column;gap:10px}
-.opt-btn{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--surface);border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:left;transition:all .15s ease;width:100%;color:var(--text)}
-.opt-btn:hover{border-color:rgba(147,197,253,.5);background:rgba(147,197,253,.05)}
+.opt-btn{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--surface);border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:left;transition:all .15s ease;width:100%}
 .opt-icon{font-size:24px;flex-shrink:0}
 .opt-label{font-family:'DM Sans',sans-serif;font-weight:600;font-size:15px;color:var(--text)}
 .opt-desc{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted);margin-top:2px}
-.back-btn{margin-top:24px;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:13px}
-.back-btn:hover{color:var(--subtle)}
-#question-view{transition:opacity .3s ease,transform .3s ease}
-#question-view.animating{opacity:0;transform:translateY(16px)}
-.results-title{font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);color:var(--text);margin-bottom:16px}
-.profile-summary{color:var(--subtle);font-size:16px;line-height:1.7;background:var(--surface);padding:20px 24px;border-radius:14px;border-left:3px solid var(--green);margin-bottom:40px;transition:opacity .5s ease}
-.section-label{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
-.careers-list{display:flex;flex-direction:column;gap:24px}
-.career-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
-.career-card.visible{opacity:1;transform:translateY(0)}
-.career-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.career-title-wrap{display:flex;align-items:center;gap:12px}
-.career-emoji{font-size:34px}
-.career-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--text)}
-.career-earnings{font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:2px}
-.ai-badge{font-size:12px;font-family:'DM Mono',monospace;padding:4px 10px;border-radius:20px;white-space:nowrap}
-.career-sections{display:grid;gap:14px}
-.sec-label{font-size:11px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
-.sec-text{color:#cbd5e1;font-size:14px;line-height:1.6;font-family:'DM Sans',sans-serif}
-.courses-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
-.course-item{display:flex;gap:10px;background:var(--bg);padding:10px 14px;border-radius:10px;border:1px solid var(--border)}
-.course-arrow{color:var(--green);font-size:13px;flex-shrink:0;margin-top:1px}
-.course-name{font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;color:var(--text)}
-.course-why{font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);margin-top:2px}
-.skeleton-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px}
-.skel{background:var(--border);border-radius:6px;animation:pulse 1.5s ease infinite}
-.skel-title{height:28px;width:45%;margin-bottom:12px;border-radius:8px}
-.skel-line1{height:14px;width:85%;margin-bottom:8px}
-.skel-line2{height:14px;width:60%}
-.skel-title-known{font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:8px}
-.loading-wrap{text-align:center;padding:60px 0}
-.loading-spinner{font-size:48px;display:inline-block;animation:spin 2s linear infinite;margin-bottom:20px}
-.loading-text{color:var(--subtle);font-size:18px}
-.error-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
-.error-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text)}
-.retry-btn{padding:8px 18px;background:none;border:1px solid var(--red);color:var(--red);border-radius:8px;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px}
-.full-error{text-align:center;padding:40px}
-.full-error p{color:var(--red);margin-bottom:20px}
-.full-retry{padding:12px 28px;background:var(--green);color:var(--bg);border:none;border-radius:10px;cursor:pointer;font-weight:700;font-family:'DM Sans',sans-serif;font-size:15px}
-.results-footer{margin-top:40px;padding-top:40px;border-top:1px solid var(--border);text-align:center}
-.restart-full{background:none;border:1px solid var(--border);color:var(--muted);padding:12px 28px;border-radius:10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:13px}
-.generating{color:var(--green);animation:pulse 1s ease infinite}
+.quiz-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px}
+.quiz-nav-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Mono',monospace;font-size:13px}
+.quiz-nav-btn:hover{color:var(--subtle)}
+/* Results summary */
+.results-summary{color:var(--subtle);font-size:16px;line-height:1.7;background:var(--surface);padding:20px 24px;border-radius:14px;border-left:3px solid var(--green);margin-bottom:40px}
+.results-section-label{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+/* Explore */
+.search-wrap{position:relative;margin-bottom:24px}
+.search-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-top:4px;z-index:10;overflow:hidden}
+.search-dd-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:none;border:none;border-bottom:1px solid var(--border);color:var(--text);cursor:pointer;width:100%;text-align:left;font-family:'DM Sans',sans-serif;font-size:14px;transition:background .1s}
+.search-dd-item:hover{background:rgba(196,181,253,.1)}
+.search-dd-item:last-child{border-bottom:none}
+.dd-add{color:var(--purple);font-size:12px;font-family:'DM Mono',monospace}
+.compare-pills{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.compare-pill{display:flex;align-items:center;gap:6px;background:rgba(196,181,253,.1);border:1px solid rgba(196,181,253,.3);border-radius:20px;padding:4px 10px}
+.compare-pill-name{font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif}
+.compare-pill-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1}
+.view-toggle{display:flex;gap:8px;margin-bottom:24px}
+.view-btn{padding:8px 18px;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:13px;font-family:'DM Mono',monospace;transition:all .15s}
+.view-btn.active{background:rgba(196,181,253,.13);border-color:var(--purple);color:var(--purple)}
+.compare-grid{display:grid;gap:12px;overflow-x:auto}
+.compare-col{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;position:relative}
+.compare-col-emoji{font-size:28px;margin-bottom:6px}
+.compare-col-title{font-family:'Playfair Display',serif;font-size:16px;color:var(--text);line-height:1.2;margin-bottom:4px}
+.compare-col-earnings{font-size:13px;color:var(--green);font-family:'DM Mono',monospace;font-weight:600;margin-bottom:8px}
+.compare-col-ai{font-size:12px;font-family:'DM Mono',monospace;margin-bottom:12px}
+.compare-stat-section{background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:10px}
+.compare-mini-label{font-size:10px;font-family:'DM Mono',monospace;color:var(--subtle);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:3px}
+.compare-mobility{font-size:12px;color:var(--muted);line-height:1.5;font-family:'DM Sans',sans-serif;margin-bottom:8px}
+.org-tags-sm{display:flex;flex-wrap:wrap;gap:4px}
+.org-tag-sm{font-size:10px;color:var(--blue);background:rgba(147,197,253,.1);padding:2px 6px;border-radius:12px;font-family:'DM Mono',monospace}
+/* Loading/empty states */
+.loading-center{text-align:center;padding:60px 0}
+.loading-icon{font-size:48px;display:inline-block;animation:spin 2s linear infinite;margin-bottom:16px}
+.loading-text{color:var(--muted);font-family:'DM Mono',monospace;font-size:14px}
+.empty-state{text-align:center;padding:48px 0;color:var(--muted);font-family:'DM Sans',sans-serif}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.error-text{color:var(--red);font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:16px}
+.retry-btn{padding:6px 14px;background:none;border:1px solid var(--red);color:var(--red);border-radius:8px;cursor:pointer;font-family:'DM Mono',monospace;font-size:12px}
+.footer-row{margin-top:40px;padding-top:40px;border-top:1px solid var(--border);text-align:center}
+.ghost-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:12px 28px;border-radius:10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:13px}
+.change-major-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace}
+.major-header{display:flex;align-items:center;gap:12px;margin-bottom:32px;flex-wrap:wrap}
+/* Quiz animated view */
+.quiz-view{transition:opacity .3s ease,transform .3s ease}
+.quiz-view.animating{opacity:0;transform:translateY(16px)}
+/* Animations */
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:480px){body{padding:24px 16px}.stats-row{gap:12px}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:480px){body{padding:24px 16px}.tool-card{padding:18px}}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
   <div class="header">
-    <span class="header-logo">🧭</span>
-    <span class="header-title">Career Compass</span>
-    <button class="restart-btn" id="restartBtn" onclick="restart()">restart</button>
-  </div>
-
-  <div id="intro">
-    <div class="intro-tag">For first-year college students</div>
-    <h1>Find work that actually<br><span class="gradient">fits you.</span></h1>
-    <p class="intro-p">You're 18. First semester. Next semester's registration is coming up, and someone's going to ask what your major is.</p>
-    <p class="intro-p">Most career advice asks what subjects you like. That's the wrong question. This asks how you want to <em>live</em> — then tells you which careers and courses actually match that.</p>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-a">~6 min</div><div class="stat-b">12 questions</div></div>
-      <div class="stat-card"><div class="stat-a">AI-powered</div><div class="stat-b">real suggestions</div></div>
-      <div class="stat-card"><div class="stat-a">Courses included</div><div class="stat-b">not just careers</div></div>
-    </div>
-    <button class="start-btn" onclick="startQuiz()">Find my path →</button>
-  </div>
-
-  <div id="quiz-view" style="display:none">
-    <div class="progress-wrap">
-      <div class="progress-labels"><span id="progressLabel">Question 1 of 12</span><span id="progressPct">0%</span></div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
-    <div id="question-view">
-      <div id="layerTag" class="layer-tag"></div>
-      <div id="questionText" class="question-text"></div>
-      <div id="questionSub" class="question-sub"></div>
-      <div id="optionsList" class="options"></div>
-      <button class="back-btn" id="backBtn" onclick="goBack()" style="display:none">← go back</button>
+    <button class="logo-btn" onclick="showScreen('home')">
+      <span class="logo-icon">🧭</span>
+      <span class="logo-text">Career Compass</span>
+    </button>
+    <div class="nav-pills" id="navPills" style="display:none">
+      <button class="nav-pill" id="navQuiz" onclick="showScreen('quiz')">🧭</button>
+      <button class="nav-pill" id="navMajors" onclick="showScreen('majors')">🎓</button>
+      <button class="nav-pill" id="navExplore" onclick="showScreen('explore')">🔍</button>
     </div>
   </div>
 
-  <div id="results-view" style="display:none">
-    <div class="results-title">Your Career Profile</div>
-    <div id="profileSummary" class="profile-summary" style="opacity:0"></div>
-    <div id="careerSection" style="display:none">
-      <div class="section-label">Career Matches <span id="generatingTag" class="generating" style="display:none">· generating</span></div>
-      <div id="careersList" class="careers-list"></div>
-    </div>
-    <div id="loadingWrap" class="loading-wrap">
-      <div class="loading-spinner">🧭</div>
-      <p class="loading-text" id="loadingText">Analyzing your answers...</p>
-    </div>
-    <div class="results-footer" id="resultsFooter" style="display:none">
-      <button class="restart-full" onclick="restart()">← Start over</button>
-    </div>
-  </div>
+  <div id="screen-home"></div>
+  <div id="screen-quiz" style="display:none"></div>
+  <div id="screen-majors" style="display:none"></div>
+  <div id="screen-explore" style="display:none"></div>
 </div>
 
 <script>
-const questions = [
-  {id:"workstyle_people",layer:"Work Style",layerColor:"#93C5FD",question:"In a typical workday, how much time do you want to spend working directly with other people?",subtitle:"Be honest — this one shapes everything.",options:[{value:"solo",label:"Mostly alone",icon:"🧘",desc:"Deep focus, minimal meetings"},{value:"mixed",label:"A healthy mix",icon:"⚖️",desc:"Some collaboration, some solo work"},{value:"people",label:"Mostly with others",icon:"🤝",desc:"People energy all day"}]},
-  {id:"workstyle_desk",layer:"Work Style",layerColor:"#93C5FD",question:"How many hours per day are you comfortable sitting at a computer?",subtitle:"Not what you can do — what you'd actually enjoy long-term.",options:[{value:"low",label:"Less than 2 hours",icon:"🌿",desc:"I need to move around"},{value:"medium",label:"2–4 hours",icon:"💻",desc:"Some screen time is fine"},{value:"high",label:"4–6 hours",icon:"🖥️",desc:"Comfortable at a desk"},{value:"full",label:"Most of the day",icon:"⌨️",desc:"I actually enjoy deep computer work"}]},
-  {id:"workstyle_handson",layer:"Work Style",layerColor:"#93C5FD",question:"Which feels more like you?",subtitle:"There's no right answer — this is about self-knowledge.",options:[{value:"handson",label:"Hands-on & physical",icon:"🔧",desc:"Building, fixing, making things in the real world"},{value:"knowledge",label:"Knowledge & analysis",icon:"📊",desc:"Thinking, writing, strategizing"},{value:"both",label:"A real mix of both",icon:"🔀",desc:"I want variety"}]},
-  {id:"workstyle_writing",layer:"Work Style",layerColor:"#93C5FD",question:"How do you feel about writing as a core part of your job?",subtitle:"Reports, emails, proposals — would that energize or drain you?",options:[{value:"love",label:"Love it",icon:"✍️",desc:"Writing is one of my strengths"},{value:"fine",label:"Fine in moderation",icon:"📝",desc:"Some writing is okay"},{value:"avoid",label:"Prefer to avoid it",icon:"🙅",desc:"Not my thing"}]},
-  {id:"workstyle_numbers",layer:"Work Style",layerColor:"#93C5FD",question:"How do you feel about data, spreadsheets, or math as a regular part of work?",subtitle:"Not whether you can do it — whether you want to.",options:[{value:"love",label:"Enjoy it",icon:"📈",desc:"Numbers make sense to me"},{value:"fine",label:"Fine in moderation",icon:"🔢",desc:"A little is okay"},{value:"avoid",label:"Would rather not",icon:"😅",desc:"Keep the spreadsheets away"}]},
-  {id:"practical_earnings",layer:"Money & Lifestyle",layerColor:"#FCD34D",question:"What income level are you aiming for in your career?",subtitle:"This is a real filter — some paths simply can't get you there.",options:[{value:"high",label:"$200k+ / year",icon:"💰",desc:"I want serious wealth — finance, law, medicine, tech"},{value:"comfortable",label:"$60k–$150k / year",icon:"🏠",desc:"Comfortable, stable professional income"},{value:"mission",label:"Below market is okay",icon:"🌱",desc:"I'd trade pay for meaningful work"}]},
-  {id:"practical_intensity",layer:"Money & Lifestyle",layerColor:"#FCD34D",question:"How hard do you want to work?",subtitle:"Ambition is great — but knowing yourself is smarter.",options:[{value:"intense",label:"60+ hours — I want to build something big",icon:"🚀",desc:"High intensity, high reward"},{value:"standard",label:"40–45 hours — standard professional",icon:"⏰",desc:"Solid career, room for life"},{value:"balanced",label:"Work-life balance is a real priority",icon:"🌅",desc:"I want a full life outside work"}]},
-  {id:"practical_mobility",layer:"Money & Lifestyle",layerColor:"#FCD34D",question:"How important is geographic flexibility to you?",subtitle:"Some careers take you anywhere. Others chain you to one or two cities.",options:[{value:"high",label:"Very important — I want to live anywhere",icon:"🗺️",desc:"Nursing, teaching, trades — high portability"},{value:"medium",label:"A few major cities is fine",icon:"🏙️",desc:"Flexibility within reason"},{value:"low",label:"Not important — happy to plant roots",icon:"🌳",desc:"Stability over mobility"}]},
-  {id:"career_impact",layer:"Career Shape",layerColor:"#FCA5A5",question:"Which kind of impact feels most meaningful to you?",subtitle:"Think about what would make you feel proud at the end of a workday.",options:[{value:"direct",label:"Helping specific people directly",icon:"❤️",desc:"I want to see my impact on individuals"},{value:"systemic",label:"Driving systemic change",icon:"🌍",desc:"Big picture, policy, scale"},{value:"building",label:"Building things",icon:"🏗️",desc:"Products, companies, tools"},{value:"wealth",label:"Creating financial value",icon:"📊",desc:"Markets, deals, growth"}]},
-  {id:"career_orgtype",layer:"Career Shape",layerColor:"#FCA5A5",question:"What kind of organization do you picture yourself working in?",subtitle:"This shapes your daily culture, pace, and politics more than most people expect.",options:[{value:"startup",label:"Startup or small company",icon:"⚡",desc:"Fast, scrappy, wear many hats"},{value:"midsize",label:"Mid-size company",icon:"🏢",desc:"Structure with room to grow"},{value:"enterprise",label:"Large corporation",icon:"🌐",desc:"Resources, stability, clear ladder"},{value:"mission",label:"Nonprofit / government / social enterprise",icon:"🤲",desc:"Mission-first, different incentives"}]},
-  {id:"career_management",layer:"Career Shape",layerColor:"#FCA5A5",question:"Long-term, what kind of role do you want to grow into?",subtitle:"Neither answer is better — they lead to very different paths.",options:[{value:"manager",label:"Lead & manage people",icon:"👥",desc:"Build teams, set direction"},{value:"specialist",label:"Deep individual expertise",icon:"🎯",desc:"Become the expert others rely on"},{value:"founder",label:"Start my own thing",icon:"🏗️",desc:"Entrepreneurship or freelance"},{value:"either",label:"Open to any of these",icon:"🔭",desc:"I'll figure it out as I go"}]},
-  {id:"ai_relationship",layer:"Future of Work",layerColor:"#C4B5FD",question:"How do you feel about working in a field that AI will significantly change?",subtitle:"This isn't about fear — it's about fit.",options:[{value:"resistant",label:"I want strong AI resistance",icon:"🛡️",desc:"Trades, hands-on care, things robots can't easily do"},{value:"alongside",label:"Work with AI as a tool",icon:"🤖",desc:"Amplify my skills with AI"},{value:"inside",label:"Work inside AI/tech itself",icon:"⚡",desc:"Build the future"},{value:"unsure",label:"Honestly not sure yet",icon:"🤷",desc:"Help me think about it"}]},
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const MAJOR_CATEGORIES = {
+  "Business & Economics":["Accounting","Business Administration","Economics","Finance","Marketing","Management","Supply Chain Management","Entrepreneurship","International Business","Human Resources"],
+  "STEM":["Computer Science","Data Science","Electrical Engineering","Mechanical Engineering","Civil Engineering","Chemical Engineering","Biology","Chemistry","Mathematics","Physics","Environmental Science","Biomedical Engineering","Software Engineering","Statistics"],
+  "Health & Medicine":["Nursing","Pre-Medicine","Public Health","Kinesiology","Nutrition & Dietetics","Health Administration","Physical Therapy","Pharmacy","Occupational Therapy","Physician Assistant Studies"],
+  "Social Sciences":["Psychology","Sociology","Political Science","Anthropology","International Relations","Criminal Justice","Social Work","Geography","Urban Studies","Gender Studies"],
+  "Arts & Humanities":["English","History","Philosophy","Communications","Journalism","Fine Arts","Graphic Design","Film & Media Studies","Music","Theater","Architecture"],
+  "Education":["Elementary Education","Secondary Education","Special Education","Early Childhood Education","Educational Leadership","Curriculum & Instruction"],
+  "Law & Policy":["Pre-Law","Political Science","Public Policy","Criminal Justice","Legal Studies","Environmental Policy"],
+  "Trades & Applied":["Construction Management","Information Technology","Cybersecurity","Network Administration","Culinary Arts","Hospitality Management"]
+};
+
+const CAREER_SUGGESTIONS = [
+  "Software Engineer","Product Manager","Data Scientist","UX Designer","Marketing Manager",
+  "Financial Analyst","Registered Nurse","Physical Therapist","Teacher","Social Worker",
+  "Civil Engineer","Mechanical Engineer","Electrical Engineer","Architect","Urban Planner",
+  "Lawyer","Paralegal","Accountant","Actuary","Investment Banker",
+  "Journalist","Graphic Designer","Photographer","Film Director","Musician",
+  "Doctor (Physician)","Pharmacist","Physician Assistant","Occupational Therapist","Dentist",
+  "Entrepreneur","Venture Capitalist","Management Consultant","Business Analyst","Operations Manager",
+  "Police Officer","Firefighter","Military Officer","FBI Agent","Border Patrol Agent",
+  "Chef","Restaurant Manager","Hotel Manager","Event Planner","Travel Agent",
+  "Electrician","Plumber","HVAC Technician","Carpenter","Welder",
+  "Professor","School Counselor","Librarian","Education Administrator","Curriculum Developer",
+  "Nonprofit Director","Foreign Service Officer","Peace Corps Volunteer","Policy Analyst","Lobbyist",
+  "Cybersecurity Analyst","Network Engineer","DevOps Engineer","AI/ML Engineer","Cloud Architect"
 ];
 
-const aiColors={low:"#6EE7B7",medium:"#FCD34D",high:"#FCA5A5"};
-const aiLabels={low:"🟢 AI-Resilient",medium:"🟡 Will Evolve",high:"🔴 High Change"};
-const secColors={why_it_fits:"#6EE7B7",daily_reality:"#93C5FD",earnings_note:"#FCD34D",ai_note:"#C4B5FD",path:"#FCA5A5"};
-const secLabels={why_it_fits:"Why it fits you",daily_reality:"Daily reality",earnings_note:"Earnings outlook",ai_note:"AI outlook",path:"Getting started"};
+const QUIZ_QUESTIONS = [
+  {id:"workstyle_people",layer:"Work Style",color:"#93C5FD",q:"In a typical workday, how much time do you want to spend working directly with other people?",sub:"Be honest — this one shapes everything.",opts:[{v:"solo",l:"Mostly alone",i:"🧘",d:"Deep focus, minimal meetings"},{v:"mixed",l:"A healthy mix",i:"⚖️",d:"Some collaboration, some solo work"},{v:"people",l:"Mostly with others",i:"🤝",d:"People energy all day"}]},
+  {id:"workstyle_desk",layer:"Work Style",color:"#93C5FD",q:"How many hours per day are you comfortable sitting at a computer?",sub:"Not what you can do — what you'd actually enjoy long-term.",opts:[{v:"low",l:"Less than 2 hours",i:"🌿",d:"I need to move around"},{v:"medium",l:"2–4 hours",i:"💻",d:"Some screen time is fine"},{v:"high",l:"4–6 hours",i:"🖥️",d:"Comfortable at a desk"},{v:"full",l:"Most of the day",i:"⌨️",d:"I actually enjoy deep computer work"}]},
+  {id:"workstyle_handson",layer:"Work Style",color:"#93C5FD",q:"Which feels more like you?",sub:"There's no right answer — this is about self-knowledge.",opts:[{v:"handson",l:"Hands-on & physical",i:"🔧",d:"Building, fixing, making in the real world"},{v:"knowledge",l:"Knowledge & analysis",i:"📊",d:"Thinking, writing, strategizing"},{v:"both",l:"A real mix of both",i:"🔀",d:"I want variety"}]},
+  {id:"workstyle_writing",layer:"Work Style",color:"#93C5FD",q:"How do you feel about writing as a core part of your job?",sub:"Reports, emails, proposals — would that energize or drain you?",opts:[{v:"love",l:"Love it",i:"✍️",d:"Writing is one of my strengths"},{v:"fine",l:"Fine in moderation",i:"📝",d:"Some writing is okay"},{v:"avoid",l:"Prefer to avoid it",i:"🙅",d:"Not my thing"}]},
+  {id:"workstyle_numbers",layer:"Work Style",color:"#93C5FD",q:"How do you feel about data, spreadsheets, or math regularly?",sub:"Not whether you can do it — whether you want to.",opts:[{v:"love",l:"Enjoy it",i:"📈",d:"Numbers make sense to me"},{v:"fine",l:"Fine in moderation",i:"🔢",d:"A little is okay"},{v:"avoid",l:"Would rather not",i:"😅",d:"Keep the spreadsheets away"}]},
+  {id:"practical_earnings",layer:"Money & Lifestyle",color:"#FCD34D",q:"What income level are you aiming for?",sub:"This is a real filter — some paths simply can't get you there.",opts:[{v:"high",l:"$200k+ / year",i:"💰",d:"Finance, law, medicine, tech"},{v:"comfortable",l:"$60k–$150k / year",i:"🏠",d:"Comfortable, stable income"},{v:"mission",l:"Below market is okay",i:"🌱",d:"I'd trade pay for meaning"}]},
+  {id:"practical_intensity",layer:"Money & Lifestyle",color:"#FCD34D",q:"How hard do you want to work?",sub:"Ambition is great — but knowing yourself is smarter.",opts:[{v:"intense",l:"60+ hours — build something big",i:"🚀",d:"High intensity, high reward"},{v:"standard",l:"40–45 hours — standard",i:"⏰",d:"Solid career, room for life"},{v:"balanced",l:"Work-life balance is a priority",i:"🌅",d:"I want a full life outside work"}]},
+  {id:"practical_mobility",layer:"Money & Lifestyle",color:"#FCD34D",q:"How important is geographic flexibility?",sub:"Some careers take you anywhere. Others chain you to one city.",opts:[{v:"high",l:"Very important — live anywhere",i:"🗺️",d:"Max portability"},{v:"medium",l:"A few major cities is fine",i:"🏙️",d:"Flexibility within reason"},{v:"low",l:"Not important — happy to plant roots",i:"🌳",d:"Stability over mobility"}]},
+  {id:"career_impact",layer:"Career Shape",color:"#FCA5A5",q:"Which kind of impact feels most meaningful?",sub:"Think about what would make you feel proud at end of day.",opts:[{v:"direct",l:"Helping specific people directly",i:"❤️",d:"See my impact on individuals"},{v:"systemic",l:"Driving systemic change",i:"🌍",d:"Big picture, policy, scale"},{v:"building",l:"Building things",i:"🏗️",d:"Products, companies, tools"},{v:"wealth",l:"Creating financial value",i:"📊",d:"Markets, deals, growth"}]},
+  {id:"career_orgtype",layer:"Career Shape",color:"#FCA5A5",q:"What kind of organization do you picture yourself in?",sub:"This shapes your daily culture more than most people expect.",opts:[{v:"startup",l:"Startup or small company",i:"⚡",d:"Fast, scrappy, wear many hats"},{v:"midsize",l:"Mid-size company",i:"🏢",d:"Structure with room to grow"},{v:"enterprise",l:"Large corporation",i:"🌐",d:"Resources, stability, clear ladder"},{v:"mission",l:"Nonprofit / government / social enterprise",i:"🤲",d:"Mission-first"}]},
+  {id:"career_management",layer:"Career Shape",color:"#FCA5A5",q:"Long-term, what kind of role do you want?",sub:"Neither is better — they lead to very different paths.",opts:[{v:"manager",l:"Lead & manage people",i:"👥",d:"Build teams, set direction"},{v:"specialist",l:"Deep individual expertise",i:"🎯",d:"Become the expert"},{v:"founder",l:"Start my own thing",i:"🏗️",d:"Entrepreneurship or freelance"},{v:"either",l:"Open to any of these",i:"🔭",d:"I'll figure it out"}]},
+  {id:"ai_relationship",layer:"Future of Work",color:"#C4B5FD",q:"How do you feel about AI significantly changing your field?",sub:"This isn't about fear — it's about fit.",opts:[{v:"resistant",l:"I want strong AI resistance",i:"🛡️",d:"Trades, hands-on care"},{v:"alongside",l:"Work with AI as a tool",i:"🤖",d:"Amplify my skills"},{v:"inside",l:"Work inside AI/tech itself",i:"⚡",d:"Build the future"},{v:"unsure",l:"Not sure yet",i:"🤷",d:"Help me think about it"}]}
+];
 
-let currentStep=0, answers={}, careerTitles=[], careers=[null,null,null], cardErrors=[false,false,false], loadingCards=[true,true,true], planSummary="";
-
-function startQuiz(){
-  document.getElementById('intro').style.display='none';
-  document.getElementById('quiz-view').style.display='block';
-  document.getElementById('restartBtn').style.display='block';
-  renderQuestion();
-}
-
-function renderQuestion(){
-  const q=questions[currentStep];
-  const total=questions.length;
-  const pct=Math.round((currentStep/total)*100);
-  document.getElementById('progressLabel').textContent=`Question ${currentStep+1} of ${total}`;
-  document.getElementById('progressPct').textContent=`${pct}%`;
-  document.getElementById('progressFill').style.width=`${pct}%`;
-  const tag=document.getElementById('layerTag');
-  tag.textContent=q.layer; tag.style.color=q.layerColor; tag.style.background=q.layerColor+'22';
-  document.getElementById('questionText').textContent=q.question;
-  document.getElementById('questionSub').textContent=q.subtitle;
-  document.getElementById('backBtn').style.display=currentStep>0?'block':'none';
-  const list=document.getElementById('optionsList'); list.innerHTML='';
-  q.options.forEach(opt=>{
-    const btn=document.createElement('button');
-    btn.className='opt-btn';
-    btn.innerHTML=`<span class="opt-icon">${opt.icon}</span><div><div class="opt-label">${opt.label}</div><div class="opt-desc">${opt.desc}</div></div>`;
-    btn.addEventListener('click',()=>selectAnswer(opt.value,q.layerColor));
-    list.appendChild(btn);
+// ── API ───────────────────────────────────────────────────────────────────────
+async function callAPI(prompt, maxTokens=600) {
+  const res = await fetch('/api/chat', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:maxTokens, messages:[{role:'user',content:prompt}]})
   });
+  if(!res.ok) throw new Error('HTTP error ' + res.status);
+  const data = await res.json();
+  if(data.error) throw new Error(data.error.message || 'API error');
+  if(!data.content) throw new Error('No content in response');
+  const text = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+  // Try to find JSON object or array
+  const objMatch = text.match(/\{[\s\S]*\}/);
+  const arrMatch = text.match(/\[[\s\S]*\]/);
+  const match = objMatch || arrMatch;
+  if(!match) throw new Error('No JSON found in response');
+  try { return JSON.parse(match[0]); }
+  catch(e) { throw new Error('JSON parse error: ' + e.message); }
 }
 
-function selectAnswer(value, color){
-  answers[questions[currentStep].id]=value;
-  const qv=document.getElementById('question-view');
-  qv.classList.add('animating');
-  setTimeout(()=>{
-    currentStep++;
-    if(currentStep>=questions.length){ showResults(); }
-    else{ renderQuestion(); qv.classList.remove('animating'); }
-  },300);
-}
-
-function goBack(){
-  if(currentStep===0) return;
-  const qv=document.getElementById('question-view');
-  qv.classList.add('animating');
-  setTimeout(()=>{ currentStep--; renderQuestion(); qv.classList.remove('animating'); },200);
-}
-
-function showResults(){
-  document.getElementById('quiz-view').style.display='none';
-  document.getElementById('results-view').style.display='block';
-  document.getElementById('restartBtn').style.display='none';
-  fetchAll();
-}
-
-async function callAPI(prompt, maxTokens){
-  const response=await fetch('/api/chat',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages:[{role:'user',content:prompt}]})
-  });
-  if(!response.ok) throw new Error('API error');
-  const data=await response.json();
-  return data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-}
-
-function answerSummary(){
-  return questions.map(q=>{
-    const opt=q.options.find(o=>o.value===answers[q.id]);
-    return `${q.question} → ${opt?opt.label:'unanswered'}`;
-  }).join('\n');
-}
-
-async function fetchAll(){
-  try{
-    const planText=await callAPI(`You are a career counselor for an 18-year-old college freshman.
-Based on these answers, write a 2-sentence profile summary and pick exactly 3 fitting career titles.
-Rules: if hands-on/AI-resistant include one skilled trade; if mission org include nonprofit/gov option.
-ANSWERS:\n${answerSummary()}
+function careerDetailPrompt(title, context='') {
+  return `Generate a detailed career profile for: ${title}${context?` (for a ${context})`:''}.
 Respond ONLY with valid JSON, no markdown:
-{"summary":"2 sentences","careers":["Career Title 1","Career Title 2","Career Title 3"]}`,300);
-
-    const plan=JSON.parse(planText);
-    planSummary=plan.summary;
-    careerTitles=plan.careers;
-
-    const summaryEl=document.getElementById('profileSummary');
-    summaryEl.textContent=plan.summary;
-    summaryEl.style.opacity='1';
-    document.getElementById('loadingWrap').style.display='none';
-    document.getElementById('careerSection').style.display='block';
-    document.getElementById('generatingTag').style.display='inline';
-
-    // Render skeleton cards with titles
-    const list=document.getElementById('careersList'); list.innerHTML='';
-    plan.careers.forEach((title,i)=>{
-      const card=document.createElement('div');
-      card.className='skeleton-card'; card.id=`card-${i}`;
-      card.innerHTML=`<div class="skel-title-known">${title}</div><div class="skel skel-line1"></div><div class="skel skel-line2"></div>`;
-      list.appendChild(card);
-    });
-
-    // Fire 3 parallel career calls
-    plan.careers.forEach((title,i)=>fetchCareerWithRetry(title,i));
-
-  }catch(e){
-    document.getElementById('loadingWrap').innerHTML=`<div class="full-error"><p>Something went wrong. Please try again.</p><button class="full-retry" onclick="fetchAll()">Try Again</button></div>`;
-  }
+{"title":"${title}","emoji":"one emoji","description":"2 sentences on what this career is","earnings":"avg salary range e.g. $65k–$120k","ai_risk":"low|medium|high","ai_note":"1 sentence","mobility":"1-2 sentences on geographic flexibility","org_types":["type1","type2","type3"],"daily_reality":"1-2 sentences on a real workday","stats":{"computer":3,"people":4,"writing":2,"math":3},"courses":["Course — reason","Course — reason","Course — reason"]}
+Stats use 1-5 scale: 1=very low, 5=very high.`;
 }
 
-async function fetchCareerWithRetry(title, i, attempt=1){
-  try{
-    const text=await callAPI(`You are a career counselor. Generate details for this career for an 18-year-old college freshman.
-Career: ${title}
-Student profile: ${planSummary}
-Student answers: ${answerSummary()}
-IMPORTANT: Respond ONLY with a single valid JSON object. Start with { and end with }.
-{"title":"${title}","emoji":"one emoji","why_it_fits":"2 sentences","daily_reality":"1 sentence","earnings":"$X–$Y","earnings_note":"1 sentence","ai_risk":"low|medium|high","ai_note":"1 sentence","path":"1 sentence","courses":["Course — reason","Course — reason","Course — reason"]}`,550);
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+const aiColors = {low:'#6EE7B7', medium:'#FCD34D', high:'#FCA5A5'};
+const aiLabels = {low:'🟢 AI-Resilient', medium:'🟡 Will Evolve', high:'🔴 High Change'};
 
-    const match=text.match(/\{[\s\S]*\}/);
-    if(!match) throw new Error('No JSON');
-    const career=JSON.parse(match[0]);
-    renderCareerCard(career, i);
-  }catch(e){
-    if(attempt<2){ fetchCareerWithRetry(title,i,2); }
-    else{ renderErrorCard(title,i); }
-  }
+function statDotsHTML(value, color) {
+  let html = '<div class="stat-dots">';
+  for(let i=0;i<5;i++) html+=`<div class="stat-dot" style="background:${i<Math.round(value)?color:'var(--border)'}"></div>`;
+  return html+'</div>';
 }
 
-function renderCareerCard(c, i){
-  const risk=c.ai_risk||'medium';
-  const ac=aiColors[risk];
-  let sectionsHTML='';
-  Object.entries(secLabels).forEach(([key,label])=>{
-    if(c[key]) sectionsHTML+=`<div><div class="sec-label" style="color:${secColors[key]}">${label}</div><div class="sec-text">${c[key]}</div></div>`;
-  });
-  let coursesHTML='';
-  if(c.courses&&c.courses.length){
-    coursesHTML=`<div><div class="sec-label" style="color:#6EE7B7">Courses to consider</div><div class="courses-list">`;
-    c.courses.forEach(course=>{
-      const parts=course.split(' — ');
-      coursesHTML+=`<div class="course-item"><span class="course-arrow">→</span><div><div class="course-name">${parts[0]}</div>${parts[1]?`<div class="course-why">${parts[1]}</div>`:''}</div></div>`;
+function careerCardHTML(career, idx='', showClose=false) {
+  const risk = career.ai_risk||'medium';
+  const ac = aiColors[risk];
+  let courses = '';
+  if(career.courses && career.courses.length) {
+    courses = `<div class="sec-label" style="color:#6EE7B7">Courses to Consider</div><div class="courses-list">`;
+    career.courses.forEach(c => {
+      const p = c.split(' — ');
+      courses += `<div class="course-item"><span class="course-arrow">→</span><div><div class="course-name">${p[0]}</div>${p[1]?`<div class="course-why">${p[1]}</div>`:''}</div></div>`;
     });
-    coursesHTML+='</div></div>';
+    courses += '</div>';
   }
-  const card=document.getElementById(`card-${i}`);
-  card.className='career-card';
-  card.innerHTML=`
+  let orgTags = '';
+  if(career.org_types) { orgTags = '<div class="org-tags">'; career.org_types.forEach(o=>orgTags+=`<span class="org-tag">${o}</span>`); orgTags+='</div>'; }
+  let stats = '';
+  if(career.stats) {
+    stats = `<div class="work-profile"><div class="work-profile-label">Work Profile</div>
+      <div class="stat-row"><span class="stat-label">Computer time / week</span>${statDotsHTML(career.stats.computer,'#93C5FD')}</div>
+      <div class="stat-row"><span class="stat-label">People interaction</span>${statDotsHTML(career.stats.people,'#6EE7B7')}</div>
+      <div class="stat-row"><span class="stat-label">Writing intensity</span>${statDotsHTML(career.stats.writing,'#C4B5FD')}</div>
+      <div class="stat-row"><span class="stat-label">Math / analysis</span>${statDotsHTML(career.stats.math,'#FCD34D')}</div>
+    </div>`;
+  }
+  return `<div class="career-card" id="ccard-${idx}">
+    ${showClose?`<button class="close-btn" onclick="removeCareer('${career.title}')">×</button>`:''}
     <div class="career-top">
       <div class="career-title-wrap">
-        <span class="career-emoji">${c.emoji||'💼'}</span>
-        <div><div class="career-title">${c.title}</div><div class="career-earnings">${c.earnings||''}</div></div>
+        <span class="career-emoji">${career.emoji||'💼'}</span>
+        <div><div class="career-name">${career.title}</div><div class="career-earnings">${career.earnings||''}</div></div>
       </div>
       <span class="ai-badge" style="color:${ac};background:${ac}18">${aiLabels[risk]}</span>
     </div>
-    <div class="career-sections">${sectionsHTML}${coursesHTML}</div>`;
-  setTimeout(()=>card.classList.add('visible'),50);
-  checkAllDone();
+    ${career.description?`<p class="career-desc">${career.description}</p>`:''}
+    ${stats}
+    ${career.mobility?`<div class="sec-label" style="color:var(--muted)">Geographic Mobility</div><p class="sec-text">${career.mobility}</p>`:''}
+    ${orgTags?`<div class="sec-label" style="color:var(--muted)">Who Hires</div>${orgTags}`:''}
+    ${career.daily_reality?`<div class="sec-label" style="color:var(--muted)">Daily Reality</div><p class="sec-text">${career.daily_reality}</p>`:''}
+    ${career.why_it_fits?`<div class="sec-label" style="color:#6EE7B7">Why It Fits You</div><p class="sec-text">${career.why_it_fits}</p>`:''}
+    ${career.path?`<div class="sec-label" style="color:#FCA5A5">Getting Started</div><p class="sec-text">${career.path}</p>`:''}
+    ${courses}
+  </div>`;
 }
 
-function renderErrorCard(title, i){
-  const card=document.getElementById(`card-${i}`);
-  card.className='error-card';
-  card.innerHTML=`<div class="error-title">${title}</div><button class="retry-btn" onclick="retryCard('${title}',${i})">retry →</button>`;
-  checkAllDone();
+function skeletonHTML(title='', idx='') {
+  return `<div class="skel-card" id="ccard-${idx}">
+    ${title?`<div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--text);margin-bottom:12px">${title}</div>`:`<div class="skel" style="height:24px;width:50%;margin-bottom:12px"></div>`}
+    <div class="skel" style="height:12px;width:80%;margin-bottom:8px"></div>
+    <div class="skel" style="height:12px;width:60%"></div>
+  </div>`;
 }
 
-function retryCard(title, i){
-  const card=document.getElementById(`card-${i}`);
-  card.className='skeleton-card';
-  card.innerHTML=`<div class="skel-title-known">${title}</div><div class="skel skel-line1"></div><div class="skel skel-line2"></div>`;
-  fetchCareerWithRetry(title,i);
-}
-
-function checkAllDone(){
-  const allDone=[0,1,2].every(i=>{
-    const card=document.getElementById(`card-${i}`);
-    return card&&(card.classList.contains('career-card')||card.classList.contains('error-card'));
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+let currentScreen = 'home';
+function showScreen(name) {
+  ['home','quiz','majors','explore'].forEach(s => {
+    document.getElementById('screen-'+s).style.display = s===name?'block':'none';
   });
-  if(allDone){
-    document.getElementById('generatingTag').style.display='none';
-    document.getElementById('resultsFooter').style.display='block';
-  }
+  document.getElementById('navPills').style.display = name==='home'?'none':'flex';
+  ['quiz','majors','explore'].forEach(s => {
+    document.getElementById('nav'+s.charAt(0).toUpperCase()+s.slice(1)).classList.toggle('active', s===name);
+  });
+  currentScreen = name;
+  if(name==='home') renderHome();
+  if(name==='quiz') initQuiz();
+  if(name==='majors') initMajors();
+  if(name==='explore') initExplore();
 }
 
-function restart(){
-  currentStep=0; answers={}; careerTitles=[]; careers=[null,null,null];
-  cardErrors=[false,false,false]; loadingCards=[true,true,true]; planSummary='';
-  document.getElementById('intro').style.display='block';
-  document.getElementById('quiz-view').style.display='none';
-  document.getElementById('results-view').style.display='none';
-  document.getElementById('restartBtn').style.display='none';
-  document.getElementById('profileSummary').style.opacity='0';
-  document.getElementById('profileSummary').textContent='';
-  document.getElementById('careerSection').style.display='none';
-  document.getElementById('loadingWrap').style.display='block';
-  document.getElementById('loadingWrap').innerHTML=`<div class="loading-spinner">🧭</div><p class="loading-text">Analyzing your answers...</p>`;
-  document.getElementById('resultsFooter').style.display='none';
+// ── HOME ──────────────────────────────────────────────────────────────────────
+function renderHome() {
+  const tools = [
+    {id:'quiz',icon:'🧭',color:'#6EE7B7',title:'Career Quiz',sub:'Answer 12 questions about how you want to work and live — get AI-powered career matches tailored to your lifestyle, not just your interests.',cta:'Take the quiz →'},
+    {id:'majors',icon:'🎓',color:'#93C5FD',title:'Careers from Majors',sub:'Pick a college major and see the top 5 careers graduates pursue — with salary data, work profiles, and honest takes on each path.',cta:'Explore by major →'},
+    {id:'explore',icon:'🔍',color:'#C4B5FD',title:'Career Explorer',sub:'Search any job title and get a detailed profile. Compare up to 3 careers side by side to see how they stack up on salary, lifestyle, and more.',cta:'Explore careers →'}
+  ];
+  let cards = tools.map((t,i)=>`
+    <button class="tool-card" onclick="showScreen('${t.id}')" style="animation:fadeUp .4s ease ${i*.1}s both"
+      onmouseover="this.style.borderColor='${t.color}66';this.style.background='${t.color}08'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface)'">
+      <span class="tool-icon">${t.icon}</span>
+      <div>
+        <div class="tool-title">${t.title}</div>
+        <p class="tool-sub">${t.sub}</p>
+        <span class="tool-cta" style="color:${t.color}">${t.cta}</span>
+      </div>
+    </button>`).join('');
+  document.getElementById('screen-home').innerHTML = `
+    <div style="margin-bottom:48px">
+      <div class="home-tag">For first-year college students</div>
+      <h1>Find work that actually<br><span class="gradient">fits your life.</span></h1>
+      <p class="home-sub">Three tools to help you think clearly about careers — before you commit to a major, an internship, or a path.</p>
+    </div>
+    <div class="tool-cards">${cards}</div>`;
 }
+
+// ── MAJORS ────────────────────────────────────────────────────────────────────
+let majorsState = {search:'', category:null, major:null, careers:[]};
+
+function initMajors() {
+  majorsState = {search:'', category:null, major:null, careers:[]};
+  renderMajorsSearch();
+}
+
+function renderMajorsSearch() {
+  const cats = Object.keys(MAJOR_CATEGORIES);
+  const catPills = cats.map(c=>`<button class="cat-pill${majorsState.category===c?' active':''}" onclick="selectMajorCategory('${c}')">${c}</button>`).join('');
+  const allMajors = Object.entries(MAJOR_CATEGORIES).flatMap(([cat,ms])=>ms.map(m=>({m,cat})));
+  let filtered = [];
+  if(majorsState.search.length>1) filtered=allMajors.filter(x=>x.m.toLowerCase().includes(majorsState.search.toLowerCase()));
+  else if(majorsState.category) filtered=allMajors.filter(x=>x.cat===majorsState.category);
+  const listHTML = filtered.length
+    ? filtered.map(({m,cat})=>`<button class="major-btn" onclick="loadMajorCareers('${m.replace(/'/g,"\\'")}')"><span class="major-name">${m}</span><span class="major-cat">${cat}</span></button>`).join('')
+    : (majorsState.search.length>1||majorsState.category)?'<p style="color:var(--muted);font-family:\'DM Sans\',sans-serif">No majors found.</p>':'<p style="color:var(--muted);font-size:14px;font-family:\'DM Sans\',sans-serif;text-align:center;padding:40px 0">Search or pick a category above</p>';
+  document.getElementById('screen-majors').innerHTML = `
+    <button class="back-btn" onclick="showScreen('home')">← back</button>
+    <span class="tag" style="color:#93C5FD;background:rgba(147,197,253,.13)">Careers from Majors</span>
+    <h2 class="section-title">What can I do with this major?</h2>
+    <p class="section-sub">Select a major to see the top 5 careers — with salary, work profiles, and more.</p>
+    <input class="search-input" type="text" placeholder="Search majors..." value="${majorsState.search}" oninput="majorsSearch(this.value)"/>
+    ${!majorsState.search?`<div class="cat-pills">${catPills}</div>`:''}
+    <div class="major-list">${listHTML}</div>`;
+}
+
+function majorsSearch(val) { majorsState.search=val; majorsState.category=null; renderMajorsSearch(); }
+function selectMajorCategory(cat) { majorsState.category=majorsState.category===cat?null:cat; majorsState.search=''; renderMajorsSearch(); }
+
+async function loadMajorCareers(major) {
+  majorsState.major = major;
+  document.getElementById('screen-majors').innerHTML = `
+    <div class="major-header">
+      <button class="change-major-btn" onclick="initMajors()">← change major</button>
+      <span class="tag" style="color:#93C5FD;background:rgba(147,197,253,.13)">${major}</span>
+    </div>
+    <h2 class="section-title">Top 5 Careers for ${major} Graduates</h2>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:32px;font-family:'DM Sans',sans-serif">Based on common career paths in the USA</p>
+    <div class="loading-center"><div class="loading-icon">🎓</div><p class="loading-text">Finding top careers...</p></div>`;
+  try {
+    const plan = await callAPI(`List the top 5 most common careers in the USA for graduates with a ${major} degree.
+Respond ONLY with valid JSON array: [{"title":"Career","emoji":"emoji"},...]`, 200);
+    const titles = Array.isArray(plan)?plan:plan.careers||[];
+    document.getElementById('screen-majors').innerHTML = `
+      <div class="major-header">
+        <button class="change-major-btn" onclick="initMajors()">← change major</button>
+        <span class="tag" style="color:#93C5FD;background:rgba(147,197,253,.13)">${major}</span>
+      </div>
+      <h2 class="section-title">Top 5 Careers for ${major} Graduates</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:32px;font-family:'DM Sans',sans-serif">Based on common career paths in the USA</p>
+      <div class="career-cards">${titles.map((t,i)=>skeletonHTML(t.title,'maj'+i)).join('')}</div>`;
+    titles.forEach(async(t,i)=>{
+      try {
+        const data = await callAPI(careerDetailPrompt(t.title,`${major} graduate`),600);
+        const el = document.getElementById('ccard-maj'+i);
+        if(el){el.outerHTML=careerCardHTML({...data,title:t.title,emoji:t.emoji||data.emoji},'maj'+i);setTimeout(()=>{const c=document.getElementById('ccard-maj'+i);if(c)c.classList.add('visible');},50);}
+      } catch { const el=document.getElementById('ccard-maj'+i); if(el)el.innerHTML=`<p style="color:var(--muted)">${t.title} — failed to load</p>`; }
+    });
+  } catch { document.getElementById('screen-majors').innerHTML+=`<p class="error-text">Something went wrong. <button class="retry-btn" onclick="loadMajorCareers('${major}')">retry</button></p>`; }
+}
+
+// ── EXPLORE ───────────────────────────────────────────────────────────────────
+let exploreState = {careers:[], loading:null, viewMode:'cards'};
+
+function initExplore() {
+  exploreState = {careers:[], loading:null, viewMode:'cards'};
+  renderExplore();
+}
+
+function renderExplore() {
+  const hasCareers = exploreState.careers.length>0;
+  const hasMultiple = exploreState.careers.length>1;
+  const maxed = exploreState.careers.length>=3;
+  let pillsHTML = '';
+  if(hasCareers) {
+    pillsHTML = '<div class="compare-pills"><span style="font-size:12px;color:var(--muted);font-family:\'DM Mono\',monospace">Comparing:</span>';
+    exploreState.careers.forEach(c=>{ pillsHTML+=`<div class="compare-pill"><span style="font-size:14px">${c.emoji}</span><span class="compare-pill-name">${c.title}</span><button class="compare-pill-remove" onclick="removeCareer('${c.title.replace(/'/g,"\\'")}')">×</button></div>`; });
+    pillsHTML+='</div>';
+  }
+  let toggleHTML = '';
+  if(hasMultiple) {
+    toggleHTML=`<div class="view-toggle">
+      <button class="view-btn${exploreState.viewMode==='cards'?' active':''}" onclick="setViewMode('cards')">📋 Card View</button>
+      <button class="view-btn${exploreState.viewMode==='compare'?' active':''}" onclick="setViewMode('compare')">⚡ Compare</button>
+    </div>`;
+  }
+  let contentHTML = '';
+  if(hasCareers) {
+    if(exploreState.viewMode==='cards'||!hasMultiple) {
+      contentHTML='<div class="career-cards">'+exploreState.careers.map((c,i)=>careerCardHTML(c,'exp'+i,true)).join('')+'</div>';
+    } else {
+      const cols = exploreState.careers.length;
+      contentHTML=`<div class="compare-grid" style="grid-template-columns:repeat(${cols},1fr);min-width:${cols===3?600:400}px">`;
+      exploreState.careers.forEach(c=>{
+        const risk=c.ai_risk||'medium'; const ac=aiColors[risk];
+        let sm=''; if(c.stats){sm=`<div class="compare-stat-section">${[['💻 Computer',c.stats.computer,'#93C5FD'],['👥 People',c.stats.people,'#6EE7B7'],['✍️ Writing',c.stats.writing,'#C4B5FD'],['📊 Math',c.stats.math,'#FCD34D']].map(([l,v,col])=>`<div class="stat-row"><span class="stat-label">${l}</span>${statDotsHTML(v,col)}</div>`).join('')}</div>`;}
+        let orgSm=''; if(c.org_types){orgSm='<div class="org-tags-sm">'+c.org_types.map(o=>`<span class="org-tag-sm">${o}</span>`).join('')+'</div>';}
+        contentHTML+=`<div class="compare-col">
+          <button class="close-btn" onclick="removeCareer('${c.title.replace(/'/g,"\\'")}')">×</button>
+          <div class="compare-col-emoji">${c.emoji||'💼'}</div>
+          <div class="compare-col-title">${c.title}</div>
+          <div class="compare-col-earnings">${c.earnings||''}</div>
+          <div class="compare-col-ai" style="color:${ac}">${aiLabels[risk]}</div>
+          ${sm}
+          ${c.mobility?`<span class="compare-mini-label">Mobility</span><div class="compare-mobility">${c.mobility}</div>`:''}
+          ${orgSm?`<span class="compare-mini-label">Who hires</span>${orgSm}`:''}
+        </div>`;
+      });
+      contentHTML+='</div>';
+    }
+  } else {
+    contentHTML=`<div class="empty-state"><div class="empty-icon">🔍</div><p>Search for a career above to get started.<br/>Add up to 3 to compare them.</p></div>`;
+  }
+  document.getElementById('screen-explore').innerHTML=`
+    <button class="back-btn" onclick="showScreen('home')">← back</button>
+    <span class="tag" style="color:#C4B5FD;background:rgba(196,181,253,.13)">Career Explorer</span>
+    <h2 class="section-title">Explore any career</h2>
+    <p class="section-sub">Search and add up to 3 careers to compare side by side.</p>
+    <div class="search-wrap">
+      <input class="search-input" id="exploreSearch" type="text" placeholder="${maxed?'Maximum 3 careers reached':'Search careers (e.g. Software Engineer, Nurse, Teacher)...'}" ${maxed?'disabled':''} oninput="renderSearchDropdown(this.value)" style="margin-bottom:0${maxed?';opacity:.5':''}"/>
+      <div id="searchDropdown" class="search-dropdown" style="display:none"></div>
+    </div>
+    ${exploreState.loading?`<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border-radius:10px;margin-bottom:16px;border:1px solid var(--border)"><span style="animation:spin 1.5s linear infinite;display:inline-block">🔍</span><span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:13px">Loading ${exploreState.loading}...</span></div>`:''}
+    ${pillsHTML}${toggleHTML}${contentHTML}`;
+  // Animate cards in
+  setTimeout(()=>{ document.querySelectorAll('.career-card').forEach(c=>c.classList.add('visible')); },50);
+  // Re-attach dropdown close on outside click
+  document.getElementById('screen-explore')?.addEventListener('click', e=>{
+    const dd=document.getElementById('searchDropdown');
+    const inp=document.getElementById('exploreSearch');
+    if(dd&&!dd.contains(e.target)&&e.target!==inp) dd.style.display='none';
+  });
+}
+
+function renderSearchDropdown(val) {
+  const dd = document.getElementById('searchDropdown');
+  if(!val||val.length<1){dd.style.display='none';return;}
+  const results = CAREER_SUGGESTIONS.filter(c=>c.toLowerCase().includes(val.toLowerCase())).slice(0,8);
+  if(!results.length){dd.style.display='none';return;}
+  dd.innerHTML=results.map(r=>`<button class="search-dd-item" onclick="addCareer('${r.replace(/'/g,"\\'")}')"><span>${r}</span><span class="dd-add">+ add</span></button>`).join('');
+  dd.style.display='block';
+}
+
+async function addCareer(title) {
+  const dd = document.getElementById('searchDropdown');
+  if(dd) dd.style.display='none';
+  const inp = document.getElementById('exploreSearch');
+  if(inp) inp.value='';
+  if(exploreState.careers.find(c=>c.title===title)||exploreState.careers.length>=3) return;
+  exploreState.loading=title;
+  renderExplore();
+  try {
+    const data = await callAPI(careerDetailPrompt(title),600);
+    exploreState.careers.push({...data,title,emoji:data.emoji||'💼'});
+  } catch {
+    alert('Failed to load ' + title + '. Please try again.');
+  }
+  exploreState.loading=null;
+  renderExplore();
+}
+
+function removeCareer(title) {
+  exploreState.careers=exploreState.careers.filter(c=>c.title!==title);
+  renderExplore();
+}
+
+function setViewMode(mode) { exploreState.viewMode=mode; renderExplore(); }
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────────
+let quizState = {step:0,answers:{},phase:'quiz',summary:'',careerTitles:[],careers:[null,null,null],loadingCards:[true,true,true],cardErrors:[false,false,false],planSummary:''};
+
+function initQuiz() {
+  quizState={step:0,answers:{},phase:'quiz',summary:'',careerTitles:[],careers:[null,null,null],loadingCards:[true,true,true],cardErrors:[false,false,false],planSummary:''};
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const el = document.getElementById('screen-quiz');
+  if(quizState.phase==='loading') {
+    el.innerHTML=`<button class="back-btn" onclick="showScreen('home')">← back</button>
+      <div class="loading-center"><div class="loading-icon">🧭</div><p class="loading-text">Building your profile...</p></div>`;
+    return;
+  }
+  if(quizState.phase==='error') {
+    el.innerHTML=`<button class="back-btn" onclick="showScreen('home')">← back</button>
+      <div style="text-align:center;padding:40px"><p class="error-text">Something went wrong.</p><button class="ghost-btn" onclick="fetchQuizResults()">Try Again</button></div>`;
+    return;
+  }
+  if(quizState.phase==='results') { renderQuizResults(); return; }
+  const q=QUIZ_QUESTIONS[quizState.step];
+  const pct=Math.round((quizState.step/QUIZ_QUESTIONS.length)*100);
+  const opts=q.opts.map(o=>`<button class="opt-btn"
+    onmouseover="this.style.borderColor='${q.color}99';this.style.background='${q.color}0f'"
+    onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface)'"
+    onclick="quizAnswer('${o.v}')">
+    <span class="opt-icon">${o.i}</span>
+    <div><div class="opt-label">${o.l}</div><div class="opt-desc">${o.d}</div></div>
+  </button>`).join('');
+  el.innerHTML=`
+    <button class="back-btn" onclick="showScreen('home')">← back</button>
+    <div class="progress-wrap">
+      <div class="progress-labels"><span>Question ${quizState.step+1} of ${QUIZ_QUESTIONS.length}</span><span>${pct}%</span></div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="quiz-view" id="quizView">
+      <div class="quiz-layer-tag"><span class="tag" style="color:${q.color};background:${q.color}22">${q.layer}</span></div>
+      <h2 class="quiz-q">${q.q}</h2>
+      <p class="quiz-sub">${q.sub}</p>
+      <div class="options">${opts}</div>
+      <div class="quiz-nav">
+        ${quizState.step>0?'<button class="quiz-nav-btn" onclick="quizBack()">← go back</button>':'<span></span>'}
+        <button class="quiz-nav-btn" onclick="quizSkip()">skip →</button>
+      </div>
+    </div>`;
+}
+
+function quizAnimate(fn) {
+  const v=document.getElementById('quizView');
+  if(v){v.classList.add('animating');setTimeout(()=>{fn();},300);}
+  else fn();
+}
+
+function quizAnswer(val) {
+  quizState.answers[QUIZ_QUESTIONS[quizState.step].id]=val;
+  quizAnimate(()=>{
+    quizState.step++;
+    if(quizState.step>=QUIZ_QUESTIONS.length) fetchQuizResults();
+    else renderQuiz();
+  });
+}
+
+function quizSkip() { quizAnimate(()=>{ quizState.step++; if(quizState.step>=QUIZ_QUESTIONS.length) fetchQuizResults(); else renderQuiz(); }); }
+function quizBack() { quizAnimate(()=>{ quizState.step--; renderQuiz(); }); }
+
+async function fetchQuizResults() {
+  quizState.phase='loading'; renderQuiz();
+  const answerSummary = QUIZ_QUESTIONS.map(q=>{ const opt=q.opts.find(o=>o.v===quizState.answers[q.id]); return `${q.q} → ${opt?opt.l:'skipped'}`; }).join('\n');
+  try {
+    const plan = await callAPI(`You are a career counselor for an 18-year-old college freshman.
+Based on these answers, write a 2-sentence profile summary and pick exactly 3 fitting career titles.
+Rules: if hands-on/AI-resistant include one skilled trade; if mission org include nonprofit/gov option.
+ANSWERS:\n${answerSummary}
+Respond ONLY with valid JSON: {"summary":"2 sentences","careers":["Title 1","Title 2","Title 3"]}`,300);
+    quizState.planSummary=plan.summary;
+    quizState.summary=plan.summary;
+    quizState.careerTitles=plan.careers;
+    quizState.phase='results';
+    renderQuizResults();
+    plan.careers.forEach(async(title,i)=>{
+      for(let attempt=1;attempt<=2;attempt++){
+        try{
+          const data=await callAPI(careerDetailPrompt(title,'college freshman')+`\nAlso include in JSON: "why_it_fits":"2 sentences specific to: ${plan.summary}", "path":"1 sentence on getting started"`,650);
+          quizState.careers[i]=data; quizState.loadingCards[i]=false;
+          updateQuizCard(i,title,data); break;
+        }catch{ if(attempt===2){quizState.cardErrors[i]=true;quizState.loadingCards[i]=false;showQuizCardError(i,title);} }
+      }
+    });
+  } catch { quizState.phase='error'; renderQuiz(); }
+}
+
+function renderQuizResults() {
+  const el=document.getElementById('screen-quiz');
+  const skels=quizState.careerTitles.map((t,i)=>skeletonHTML(t,'qz'+i)).join('');
+  el.innerHTML=`
+    <button class="back-btn" onclick="showScreen('home')">← back</button>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(24px,4vw,36px);color:var(--text);margin-bottom:16px">Your Career Profile</h2>
+    <p class="results-summary">${quizState.summary}</p>
+    <div class="results-section-label">Career Matches</div>
+    <div class="career-cards">${skels}</div>
+    <div class="footer-row"><button class="ghost-btn" onclick="initQuiz()">← retake quiz</button></div>`;
+  // If careers already loaded (retry scenario), render them
+  quizState.careerTitles.forEach((title,i)=>{ if(quizState.careers[i]) updateQuizCard(i,title,quizState.careers[i]); });
+}
+
+function updateQuizCard(i,title,data) {
+  const el=document.getElementById('ccard-qz'+i);
+  if(!el) return;
+  el.outerHTML=careerCardHTML({...data,title},'qz'+i,false);
+  setTimeout(()=>{const c=document.getElementById('ccard-qz'+i);if(c)c.classList.add('visible');},50);
+}
+
+function showQuizCardError(i,title) {
+  const el=document.getElementById('ccard-qz'+i);
+  if(!el) return;
+  el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-family:'Playfair Display',serif;font-size:18px;color:var(--text)">${title}</span><button class="retry-btn" onclick="retryQuizCard(${i},'${title.replace(/'/g,"\\'")}')">retry →</button></div>`;
+}
+
+async function retryQuizCard(i,title) {
+  const el=document.getElementById('ccard-qz'+i);
+  if(el){el.className='skel-card';el.innerHTML=skeletonHTML(title,'qz'+i);}
+  quizState.cardErrors[i]=false;
+  try {
+    const data=await callAPI(careerDetailPrompt(title,'college freshman'),650);
+    quizState.careers[i]=data; updateQuizCard(i,title,data);
+  } catch { showQuizCardError(i,title); }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderHome();
+// Dropdown handled per-screen
 </script>
 </body>
 </html>
-
