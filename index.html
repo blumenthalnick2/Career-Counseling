@@ -360,7 +360,7 @@ function initMajors() {
 
 function renderMajorsSearch() {
   const cats = Object.keys(MAJOR_CATEGORIES);
-  const catPills = cats.map(c=>`<button class="cat-pill${majorsState.category===c?' active':''}" onclick="selectMajorCategory('${c}')">${c}</button>`).join('');
+  const catPills = cats.map(c=>`<button class="cat-pill${majorsState.category===c?' active':''}" data-cat="${c}" onclick="selectMajorCategory('${c}')">${c}</button>`).join('');
   const allMajors = Object.entries(MAJOR_CATEGORIES).flatMap(([cat,ms])=>ms.map(m=>({m,cat})));
   let filtered = [];
   if(majorsState.search.length>1) filtered=allMajors.filter(x=>x.m.toLowerCase().includes(majorsState.search.toLowerCase()));
@@ -373,13 +373,44 @@ function renderMajorsSearch() {
     <span class="tag" style="color:#93C5FD;background:rgba(147,197,253,.13)">Careers from Majors</span>
     <h2 class="section-title">What can I do with this major?</h2>
     <p class="section-sub">Select a major to see the top 5 careers — with salary, work profiles, and more.</p>
-    <input class="search-input" type="text" placeholder="Search majors..." value="${majorsState.search}" oninput="majorsSearch(this.value)"/>
-    ${!majorsState.search?`<div class="cat-pills">${catPills}</div>`:''}
-    <div class="major-list">${listHTML}</div>`;
+    <input class="search-input" id="majorSearchInput" type="text" placeholder="Search majors..." value="${majorsState.search}" oninput="majorsSearch(this.value)"/>
+    <div id="majorCatPills" class="cat-pills" style="${majorsState.search?'display:none':''}"> ${catPills}</div>
+    <div id="majorList" class="major-list">${listHTML}</div>`;
 }
 
-function majorsSearch(val) { majorsState.search=val; majorsState.category=null; renderMajorsSearch(); }
-function selectMajorCategory(cat) { majorsState.category=majorsState.category===cat?null:cat; majorsState.search=''; renderMajorsSearch(); }
+function majorsSearch(val) {
+  majorsState.search=val; majorsState.category=null;
+  // Only re-render the list, not the whole screen
+  updateMajorsList();
+  // Update category pills visibility
+  const catPillsEl = document.getElementById('majorCatPills');
+  if(catPillsEl) catPillsEl.style.display = val ? 'none' : 'flex';
+}
+
+function updateMajorsList() {
+  const listEl = document.getElementById('majorList');
+  if(!listEl) return;
+  const allMajors = Object.entries(MAJOR_CATEGORIES).flatMap(([cat,ms])=>ms.map(m=>({m,cat})));
+  let filtered = [];
+  if(majorsState.search.length>1) filtered=allMajors.filter(x=>x.m.toLowerCase().includes(majorsState.search.toLowerCase()));
+  else if(majorsState.category) filtered=allMajors.filter(x=>x.cat===majorsState.category);
+  const listHTML = filtered.length
+    ? filtered.map(({m,cat})=>`<button class="major-btn" onclick="loadMajorCareers('${m.replace(/'/g,"\\'")}')"><span class="major-name">${m}</span><span class="major-cat">${cat}</span></button>`).join('')
+    : (majorsState.search.length>1||majorsState.category)?'<p style="color:var(--muted);font-family:\'DM Sans\',sans-serif">No majors found.</p>':'<p style="color:var(--muted);font-size:14px;font-family:\'DM Sans\',sans-serif;text-align:center;padding:40px 0">Search or pick a category above</p>';
+  listEl.innerHTML = listHTML;
+}
+function selectMajorCategory(cat) {
+  majorsState.category=majorsState.category===cat?null:cat;
+  majorsState.search='';
+  // Update search input value
+  const inp = document.getElementById('majorSearchInput');
+  if(inp) inp.value='';
+  // Update category pill styles
+  document.querySelectorAll('.cat-pill').forEach(el=>{
+    el.classList.toggle('active', el.dataset.cat===majorsState.category);
+  });
+  updateMajorsList();
+}
 
 async function loadMajorCareers(major) {
   majorsState.major = major;
